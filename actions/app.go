@@ -30,16 +30,16 @@ func App() *buffalo.App {
 			SessionName: "_wod_ical_session",
 		})
 		// Automatically redirect to SSL
-		app.Use(forceSSL())
+		//app.Use(forceSSL())
 
 		// Set the request content type to JSON
-		app.Use(middleware.SetContentType("application/json"))
+		//app.Use(middleware.SetContentType("application/json"))
 
 		if ENV == "development" {
 			app.Use(middleware.ParameterLogger)
 		}
 
-		app.GET("/", HomeHandler)
+		app.GET("/{apiKey}", HomeHandler)
 
 	}
 

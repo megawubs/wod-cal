@@ -1,9 +1,22 @@
 package actions
 
-import "github.com/gobuffalo/buffalo"
+import (
+	"github.com/gobuffalo/buffalo"
+	"github.com/go-wod/wod"
+	"github.com/go-wod/calendar"
+	"time"
+	"github.com/megawubs/wod_ical/renderers"
+)
 
 // HomeHandler is a default handler to serve up
 // a home page.
 func HomeHandler(c buffalo.Context) error {
-	return c.Render(200, r.JSON(map[string]string{"message": "Welcome to Buffalo!"}))
+	wods, err := wod.All(c.Param("apiKey"))
+	if err != nil {
+		c.Render(500, r.JSON(err))
+	}
+	cal := calendar.Calendar{Version: "2.0", ProId: "wod_ical"}
+	wods.MarshallICalendar(&cal, time.Now().Location())
+
+	return c.Render(200, renderers.ICAL(cal))
 }

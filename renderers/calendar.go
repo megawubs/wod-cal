@@ -2,7 +2,7 @@ package renderers
 
 import (
 	"github.com/gobuffalo/buffalo/render"
-	"github.com/go-wod/calendar"
+	"github.com/megawubs/go-wod/calendar"
 	"io"
 )
 

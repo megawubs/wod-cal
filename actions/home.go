@@ -2,10 +2,10 @@ package actions
 
 import (
 	"github.com/gobuffalo/buffalo"
-	"github.com/go-wod/wod"
-	"github.com/go-wod/calendar"
-	"time"
+	"github.com/megawubs/go-wod/calendar"
+	"github.com/megawubs/go-wod/wod"
 	"github.com/megawubs/wod_ical/renderers"
+	"time"
 )
 
 // HomeHandler is a default handler to serve up

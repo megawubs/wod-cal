@@ -2,7 +2,7 @@ package actions
 
 import (
 	"github.com/gobuffalo/buffalo"
-	"github.com/megawubs/go-wod/calendar"
+	"github.com/megawubs/calendar"
 	"github.com/megawubs/go-wod/wod"
 	"github.com/megawubs/wod_ical/renderers"
 	"time"

@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"fmt"
 	"github.com/gobuffalo/buffalo"
 	"github.com/megawubs/calendar"
 	"github.com/megawubs/go-wod/wod"
@@ -16,7 +17,22 @@ func HomeHandler(c buffalo.Context) error {
 		c.Render(500, r.JSON(err))
 	}
 	cal := calendar.Calendar{Version: "2.0", ProId: "wod_ical"}
-	wods.MarshallICalendar(&cal, time.Now().Location())
+	for _, w := range wods {
+		format := "02-01-2006 15:04"
+		start, err := time.Parse(format, w.DateStart)
+		if err != nil {
+			return fmt.Errorf("could not parse WOD start date: %s", err)
+		}
+		end, err := time.Parse(format, w.DateEnd)
+		if err != nil {
+			return fmt.Errorf("could not parse WOD end date: %s", err)
+		}
+		calendar.NewEvent(w.Id+2, "", start, end, w.Name)
+	}
+	err = wods.MarshallICalendar(&cal, time.Now().Location())
+	if err != nil {
+		return fmt.Errorf("could not marshal icalendar: %s", err)
+	}
 
 	return c.Render(200, renderers.ICAL(cal))
 }

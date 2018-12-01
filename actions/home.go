@@ -6,16 +6,23 @@ import (
 	"github.com/megawubs/calendar"
 	"github.com/megawubs/go-wod/wod"
 	"github.com/megawubs/wod_ical/renderers"
+	"github.com/uniplaces/carbon"
 	"time"
 )
 
 // HomeHandler is a default handler to serve up
 // a home page.
 func HomeHandler(c buffalo.Context) error {
-	wods, err := wod.All(c.Param("apiKey"))
+	wods, err := wod.All(c.Param("apiKey"), carbon.Now().Time)
 	if err != nil {
 		c.Render(500, r.JSON(err))
 	}
+	nextMonthWods, err := wod.All(c.Param("apiKey"), carbon.Now().AddMonth().Time)
+	if err != nil {
+		c.Render(500, r.JSON(err))
+	}
+	wods = append(wods, nextMonthWods...)
+
 	cal := calendar.Calendar{Version: "2.0", ProId: "wod_ical"}
 	for _, w := range wods {
 		format := "02-01-2006 15:04"

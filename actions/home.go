@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gobuffalo/buffalo"
 	"github.com/megawubs/calendar"
-	"github.com/megawubs/go-wod/wod"
 	"github.com/megawubs/wod_ical/renderers"
+	"github.com/megawubs/wod_ical/wod"
 	"github.com/uniplaces/carbon"
 	"time"
 )
